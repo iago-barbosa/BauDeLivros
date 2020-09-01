@@ -12,7 +12,7 @@ export default function Header({ navigation }){
                 </TouchableOpacity>
                 <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                    <Image style={headerStyle.profile} source={require('../../../assets/bars.png')}></Image>
+                    <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
                 </TouchableOpacity>
             </View>
         </View>
@@ -20,6 +20,9 @@ export default function Header({ navigation }){
 }
 
 const headerStyle = StyleSheet.create({
+    icons: {
+        width:16
+    },
     header: {
         backgroundColor: '#171c22',
     },
@@ -40,6 +43,8 @@ const headerStyle = StyleSheet.create({
     },
     profile: {
         marginVertical: 15,
-        marginRight: 10
+        marginRight: 10,
+        width: 20,
+        height: 20
     }
 });
