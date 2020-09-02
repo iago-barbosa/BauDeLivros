@@ -21,10 +21,11 @@ export default function Header({ navigation }){
 
 const headerStyle = StyleSheet.create({
     icons: {
-        width:16
+        width: 20,
+        height: 20
     },
     header: {
-        backgroundColor: '#171c22',
+        backgroundColor: '#543DA6',
     },
     container: {
         marginTop: 20,
@@ -38,13 +39,13 @@ const headerStyle = StyleSheet.create({
         flex: 1,
     },
     barsMenu: {
-        marginVertical: 15,
-        marginLeft: 10
+        marginTop: 20,
+        marginLeft: 20,
+        height: 20
+
     },
     profile: {
-        marginVertical: 15,
-        marginRight: 10,
-        width: 20,
-        height: 20
+        marginTop: 20,
+        marginRight: 20,
     }
 });

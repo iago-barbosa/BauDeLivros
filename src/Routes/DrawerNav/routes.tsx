@@ -4,15 +4,15 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import RouteIndex from '../RouteMain/routes';
 const Drawer = createDrawerNavigator();
 
-export default function NavCategory({ navigation }) {
+export default function NavCategory() {
         return (
-            <Drawer.Navigator initialRouteName="RouteIndex" drawerContent={ () => <CustomDrawerComp navigation={navigation} /> }>
+            <Drawer.Navigator initialRouteName="RouteIndex" drawerContent={ () => <CustomDrawerComp /> }>
                 <Drawer.Screen name="RouteIndex" component={RouteIndex} />
             </Drawer.Navigator>
         );
 }
 
-function CustomDrawerComp ({ navigation }) {
+function CustomDrawerComp () {
     return(
         <DrawerContentScrollView>
             <View>
