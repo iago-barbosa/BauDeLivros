@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { HeaderBackButton } from '@react-navigation/stack';
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 export default function Header({ navigation }){
@@ -11,9 +12,10 @@ export default function Header({ navigation }){
                     <Image style={headerStyle.barsMenu} source={require('../../../assets/bars.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                     <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
                 </TouchableOpacity>
+                <HeaderBackButton onPress={() => navigation.goBack()}/>
             </View>
         </View>
     )
