@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet} from 'react-native';
 import Footer from '../../Components/Footer/footer';
 import BannerHome from '../../Components/BannerHome/banner';
+import Categorias from '../../Components/Categorias/categorias';
 import { Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -10,6 +11,7 @@ export default function Home () {
         <View style={estiloHome.main}>
             <View style={estiloHome.container}>
                 <BannerHome />
+                <Categorias />
                 <Text style={{fontSize: 24, textAlign: 'center'}}>
                     Aqui está a Home!
                 </Text>
