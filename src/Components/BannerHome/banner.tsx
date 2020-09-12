@@ -14,9 +14,6 @@ function handleOnScroll (event) {
 }
 
 export default function BannerHome() {
-    var state = {
-        active: 0
-    }
 
     return(
         <View>
@@ -25,9 +22,6 @@ export default function BannerHome() {
                 pagingEnabled
                 decelerationRate="fast"
                 showsHorizontalScrollIndicator={false}
-                onScroll={function (){
-                    handleOnScroll(this)
-                }  }
             >
                 {
                     images.map((image) => (
@@ -37,13 +31,6 @@ export default function BannerHome() {
                     ))
                 }
             </ScrollView>
-            <View style={estilo.pagination}>
-                {
-                    images.map((i, k) => (
-                        <Text key={k} style={k==state.active ? estilo.paginationActiveText : estilo.paginationText}>•</Text>
-                    ))
-                }
-            </View>
         </View>
     )
 }

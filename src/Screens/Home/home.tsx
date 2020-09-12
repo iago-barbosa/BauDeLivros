@@ -6,7 +6,7 @@ import Categorias from '../../Components/Categorias/categorias';
 import { Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Home () {
+export default function Home ({navigation}) {
     return(
         <View style={estiloHome.main}>
             <View style={estiloHome.container}>
@@ -17,7 +17,7 @@ export default function Home () {
                 </Text>
 
             </View>
-            <Footer />
+            <Footer navigation={navigation} />
         </View>
     );
 }
@@ -26,7 +26,8 @@ const estiloHome = StyleSheet.create({
     main: {
         flex: 1,
         alignContent: 'center', 
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#d6fefd1A',
     },
     container: {
         flex: 1,

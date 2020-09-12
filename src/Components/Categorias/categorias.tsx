@@ -4,16 +4,29 @@ import { View, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, Text
 const {width} = Dimensions.get("window");
 
 const categorias = [
-    "Ficção Cientifica",
+    "Administração",
+    "Agropecuaria",
+    "Auto Ajuda",
     "Ação",
     "Aventura",
-    "Terror",
+    "Gastronomia",
+    "Religião",
+    "Biografias",
+    "Ficção Cientifica",
+    "Fantasia",
     "Comedia",
-    "Religioso",
-    "Auto-Ajuda"
+    "Policial",
+    "Suspense",
+    "Terror",
+    "Tecnologia",
+    "Informática",
+    "HQs",
+    "Mangá",
+    "Contos",
+    "Poesia",
 ]
 
-export default function BannerHome() {
+export default function Categorias() {
     var state = {
         active: 0
     }

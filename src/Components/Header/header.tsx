@@ -9,19 +9,29 @@ export default function Header({ navigation }){
     return(
         <View style={headerStyle.header}>
             <StatusBar style="light"/>
-            <View style={headerStyle.container}>
-                <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                    <Image style={headerStyle.barsMenu} source={require('../../../assets/bars.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
-                {route.name == "Home" ?
-                    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                        <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
-                    </TouchableOpacity>
+            {route.name == "Home" ?
+                    <View style={headerStyle.container}>
+                        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                            <Image style={headerStyle.barsMenu} source={require('../../../assets/bars.png')}></Image>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                            <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
                     :
-                    <HeaderBackButton style={[headerStyle.backBtn, headerStyle.icons]} tintColor={'#fff'}  onPress={() => navigation.goBack()}/>
+                    <View style={headerStyle.container}>
+                        <HeaderBackButton style={[headerStyle.backBtn, headerStyle.icons]} tintColor={'#fff'}  onPress={() => navigation.goBack()}/>
+                        <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
+                        {route.name == "Profile" ?
+                            <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                                <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
+                            </TouchableOpacity>
+                        }
+                    </View>
                 } 
-            </View>
         </View>
     )
 }
@@ -32,7 +42,7 @@ const headerStyle = StyleSheet.create({
         height: 20
     },
     header: {
-        backgroundColor: '#543DA6',
+        backgroundColor: '#08a39e',
     },
     container: {
         marginTop: 20,
@@ -57,6 +67,7 @@ const headerStyle = StyleSheet.create({
     },
     backBtn: {
         marginTop: 20,
-        marginRight: 20,
+        marginLeft: 20
+
     }
 });

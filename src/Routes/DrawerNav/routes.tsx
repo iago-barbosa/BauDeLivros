@@ -12,16 +12,62 @@ export default function NavCategory() {
         );
 }
 
+const categorias = [
+    "Administração",
+    "Agropecuaria",
+    "Auto Ajuda",
+    "Ação",
+    "Aventura",
+    "Gastronomia",
+    "Religião",
+    "Biografias",
+    "Ficção Cientifica",
+    "Fantasia",
+    "Comedia",
+    "Policial",
+    "Suspense",
+    "Terror",
+    "Tecnologia",
+    "Informática",
+    "HQs",
+    "Mangás",
+    "Contos",
+    "Poesia",
+]
+
 function CustomDrawerComp () {
     return(
-        <DrawerContentScrollView>
-            <View>
-                <TouchableOpacity>
-                    <Text >Outlet</Text>
-                </TouchableOpacity>
+        <DrawerContentScrollView style={estiloDrawer.main} >
+            <View style={estiloDrawer.container}>
+                {
+                    categorias.map((titulo) => (
+                        <TouchableOpacity style={estiloDrawer.categoriaItem}>
+                            <Text style={estiloDrawer.itemNome}>{titulo}</Text>
+                        </TouchableOpacity>
+                    ))
+                }
             </View>
         </DrawerContentScrollView>
-    );
-
-    
+    );    
 }
+
+const estiloDrawer = StyleSheet.create({
+    main: {
+        backgroundColor: '#08a39e'
+    },
+    container: {
+        marginTop: 40
+    },
+    categoriaItem: {
+        backgroundColor: '#08a39e',
+        borderTopWidth: 1,
+        borderColor: '#39B5B1',
+        height: 60,
+        justifyContent: 'center'
+    },
+    itemNome: {
+        fontSize: 18,
+        marginLeft: 15,
+        color: '#fff'
+    }
+});
