@@ -41,7 +41,7 @@ function CustomDrawerComp () {
             <View style={estiloDrawer.container}>
                 {
                     categorias.map((titulo) => (
-                        <TouchableOpacity style={estiloDrawer.categoriaItem}>
+                        <TouchableOpacity key={titulo} style={estiloDrawer.categoriaItem}>
                             <Text style={estiloDrawer.itemNome}>{titulo}</Text>
                         </TouchableOpacity>
                     ))
