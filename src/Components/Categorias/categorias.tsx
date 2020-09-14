@@ -65,14 +65,15 @@ const estilo = StyleSheet.create({
         textAlign: 'center'
     },
     Item: {
-        width: width/4,
-        backgroundColor: '#9783de',
+        //width: width/4,
+        backgroundColor: '#0bbdb7',
         marginHorizontal: (width/100)*4.166666667,
         marginVertical: 5,
         borderRadius: 10,
         justifyContent: 'center',
         borderWidth: 2,
-        borderColor: '#543DA6'
+        borderColor: '#08a39e',
+        minWidth: width/4
 
     },
     ItemText: {
