@@ -1,35 +1,18 @@
-import * as React from 'react';
+import React, { useEffect, useState} from 'react';
+import api from '../../../service/api';
 import { View, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, Text } from 'react-native';
 
 const {width} = Dimensions.get("window");
 
-const categorias = [
-    "Administração",
-    "Agropecuaria",
-    "Auto Ajuda",
-    "Ação",
-    "Aventura",
-    "Gastronomia",
-    "Religião",
-    "Biografias",
-    "Ficção Cientifica",
-    "Fantasia",
-    "Comedia",
-    "Policial",
-    "Suspense",
-    "Terror",
-    "Tecnologia",
-    "Informática",
-    "HQs",
-    "Mangá",
-    "Contos",
-    "Poesia",
-]
 
-export default function Categorias() {
-    var state = {
-        active: 0
-    }
+export default function Categorias({navigation}) {
+    const [ categorias, setCategorias] = useState([])
+
+    useEffect(() => {
+        api.get('/categoria').then((res) => {
+            setCategorias(res.data)
+        })
+    }, [])
 
     return(
         <View style={estilo.CatContainer}>
@@ -41,9 +24,11 @@ export default function Categorias() {
                 style={estilo.Scroll}
             >
                 {
-                    categorias.map((texto) => (
-                        <TouchableOpacity style={estilo.Item}>
-                            <Text style={estilo.ItemText}>{texto}</Text>
+                    categorias.map((res:any) => (
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('Categoria', {id: res._id, nome: res.nome})}
+                            key={res._id} style={estilo.Item}>
+                            <Text style={estilo.ItemText}>{res.nome}</Text>
                         </TouchableOpacity>
                     ))
                 }

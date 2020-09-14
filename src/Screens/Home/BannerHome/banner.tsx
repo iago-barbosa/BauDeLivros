@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions, Text } from 'react-native';
-import { State } from 'react-native-gesture-handler';
+import { View, TouchableOpacity, Image, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
 const {width} = Dimensions.get("window");
 const  images = [
-    require('../../../assets/banners/550x275/banner_augustocury.png'),
-    require('../../../assets/banners/550x275/banner_augustocury.png'),
+    {
+        id: 0,
+        link: require('../../../../assets/banners/550x275/banner_augustocury.png'),
+    },
+    {
+        id: 1,
+        link: require('../../../../assets/banners/550x275/banner_augustocury.png'),
+    }
 ]
-
-function handleOnScroll (event) {
-    console.log(event);
-    console.log("separador");
-}
 
 export default function BannerHome() {
 
@@ -25,8 +25,8 @@ export default function BannerHome() {
             >
                 {
                     images.map((image) => (
-                        <TouchableOpacity style={{}}>
-                            <Image style={estilo.bannerImg} source={image}></Image>
+                        <TouchableOpacity key={image.id} style={{}}>
+                            <Image style={estilo.bannerImg} source={image.link}></Image>
                         </TouchableOpacity>
                     ))
                 }
