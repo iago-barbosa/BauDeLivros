@@ -7,9 +7,9 @@ export default function Profile ({navigation}) {
     return(
         <View style={estilo.main}>
             <View style={estilo.container}>
-                <ImageBackground style={{flex: 1,justifyContent: "center"}} source={require('../../../assets/imgParaBd/Usuario/Machado de Assis/capa.png')}>
+                <ImageBackground style={{flex: 1,justifyContent: "center"}} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/capa.png')}>
                     <View style={estilo.perfilImg}>
-                        <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/Machado de Assis/perfil.png')}></Image>
+                        <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/perfil.png')}></Image>
                     </View>
                 </ImageBackground>
             </View>

@@ -28,7 +28,7 @@ export default function Lancamentos() {
                         <TouchableOpacity key={res._id} style={estilo.ItemContainer}>
                             <Image style={estilo.ItemImage} source={Imagens[res.imagem]}></Image>
                             <Text style={estilo.ItemTitulo}>{res.nome}</Text>
-                            <Text style={estilo.ItemAutor}>{res.autor}</Text>
+                            <Text style={estilo.ItemAutor}>{res.autor.nome}</Text>
                         </TouchableOpacity>
                         ))
                 }

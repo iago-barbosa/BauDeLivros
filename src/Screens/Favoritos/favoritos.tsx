@@ -34,7 +34,7 @@ export default function Favoritos ({navigation}) {
                                      <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
                                      <View style={estilo.infoItem}>
                                          <Text style={estilo.tituloItem}>{res.nome}</Text>
-                                         <Text style={estilo.autorItem}>{res.autor}</Text>
+                                         <Text style={estilo.autorItem}>{res.autor.nome}</Text>
                                          <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
                                          <ScrollView
                                              horizontal
