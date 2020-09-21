@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import api from '../../service/api';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import Footer from '../../Components/Footer/footer';
@@ -13,14 +14,16 @@ export default function Login ({navigation}) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     
-
+    async function saveToken(user) {
+        await AsyncStorage.setItem('@BauDeLivros:userToken', JSON.stringify(user))
+    }
 
     function fazLogin() {
         const fazerLogin = {email: login, senha: password};
         api.post('/validaUsuario', fazerLogin).then((res) => {
-            console.log(res);
+            saveToken(res.data.token);
+            navigation.navigate('Home');
         }).catch((error) => {
-            console.log(error);
         })
     }
     return(

@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { Text, View, StyleSheet} from 'react-native';
 import Footer from '../../Components/Footer/footer';
 import BannerHome from './BannerHome/banner';
 import Categorias from './Categorias/categoriasHome';
 import Lancamentos from './Lancamentos/lancamentos';
-import { Image } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default function Home ({navigation}) {
+export default async function Home ({navigation}) {
+
     return(
         <View style={estiloHome.main}>
             <ScrollView style={estiloHome.container}>
