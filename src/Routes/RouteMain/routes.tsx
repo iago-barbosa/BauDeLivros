@@ -7,7 +7,7 @@ import Favoritos from '../../Screens/Favoritos/favoritos';
 import Header from '../../Components/Header/header';
 import Home from '../../Screens/Home/home';
 import MeusLivros from '../../Screens/MeusLivros/meusLivros';
-import Profile from '../../Screens/Profile/login';
+import Profile from '../../Screens/Profile/index';
 
 const Stack = createStackNavigator();
 
