@@ -15,7 +15,7 @@ export default function Login ({navigation}) {
     const [password, setPassword] = useState('');
     
     async function saveToken(user) {
-        await AsyncStorage.setItem('@BauDeLivros:userToken', JSON.stringify(user))
+        await AsyncStorage.setItem('@BauDeLivros:userToken', user)
     }
 
     function fazLogin() {

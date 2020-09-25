@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { HeaderBackButton } from '@react-navigation/stack';
+import api from '../../service/api';
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useRoute } from '@react-navigation/native';
 
 export default function Header({ navigation }){
@@ -15,7 +17,7 @@ export default function Header({ navigation }){
                             <Image style={headerStyle.barsMenu} source={require('../../../assets/bars.png')}></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                        <TouchableOpacity onPress={() => navigateProfile(navigation)}>
                             <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
                         </TouchableOpacity>
                     </View>
@@ -26,7 +28,7 @@ export default function Header({ navigation }){
                         {route.name == "Profile" ?
                             <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
                             :
-                            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                            <TouchableOpacity onPress={() => navigateProfile(navigation)}>
                                 <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
                             </TouchableOpacity>
                         }
@@ -34,6 +36,23 @@ export default function Header({ navigation }){
                 } 
         </View>
     )
+}
+
+async function navigateProfile(navigation) {
+    AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
+        console.log(value);
+        api.defaults.headers.common['Authorization'] = 'Bearer '+value;
+        api.post('/validaToken').then((res) => {
+            console.log(res);
+            console.log('Deu certo');
+            navigation.navigate('Profile', {validacao: true});
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log('deu erro');
+            navigation.navigate('Profile', {validacao: false});
+        })
+    });
 }
 
 const headerStyle = StyleSheet.create({
