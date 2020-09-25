@@ -6,36 +6,17 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Perfil from './profile';
 import Login from './login';
 
-const [logado, setLogado] = useState('');
-const [page, setPage] = useState(false);
 
 export default function Profile ({navigation}) {
-    verificaLogin();
-    if(logado === 'true'){
-        setPage(true);
-    } else {
-        setPage(false);
-    }
-    return(
-        <View>
-            {page ? 
-                <Perfil navigation={navigation} />
-                :
-                <Login navigation={navigation} />
-
-            }
-        </View>
-    )
-}
-
-
-async function verificaLogin() {
-    var token = await AsyncStorage.getItem('@BauDeLivros:userToken');
+    var token = AsyncStorage.getItem('@BauDeLivros:userToken');
+    console.log(token);
     if(token !== null){
-        setLogado('true');
+        return(
+            <Perfil navigation={navigation} />
+        )
     } else {
-        setLogado('false');
+        return(
+            <Login navigation={navigation} />
+        )
     }
-
-    
 }
