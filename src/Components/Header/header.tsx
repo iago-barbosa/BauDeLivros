@@ -40,16 +40,11 @@ export default function Header({ navigation }){
 
 async function navigateProfile(navigation) {
     AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
-        console.log(value);
         api.defaults.headers.common['Authorization'] = 'Bearer '+value;
         api.post('/validaToken').then((res) => {
-            console.log(res);
-            console.log('Deu certo');
             navigation.navigate('Profile', {validacao: true});
         })
         .catch((error) => {
-            console.log(error);
-            console.log('deu erro');
             navigation.navigate('Profile', {validacao: false});
         })
     });

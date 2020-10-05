@@ -2,14 +2,18 @@ import React, { useEffect, useState}from 'react';
 import api from '../../service/api';
 import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Image} from 'react-native';
 import Footer from '../../Components/Footer/footer';
+import AsyncStorage from '@react-native-community/async-storage';
 import Imagens from '../../Components/Imagens/index';
 
 export default function MeusLivros ({navigation}) {
     const [ livros, setLivros] = useState([])
 
     useEffect(() => {
-        api.get('/livros/Machado de Assis').then((res) => {
-            setLivros(res.data)
+        AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
+            api.defaults.headers.common['Authorization'] = 'Bearer '+value;
+            api.get('/MeusLivros').then((res) => {
+                setLivros(res.data);
+            })
         })
     }, []) 
     return(
@@ -22,33 +26,43 @@ export default function MeusLivros ({navigation}) {
             </View>
             <ScrollView 
                     style={estilo.container}
-                >
+                    >
                     {
                         livros.map((res:any) =>{
-                            return (
-                                 <TouchableOpacity key={res._id} style={estilo.item}>
-                                     <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
-                                     <View style={estilo.infoItem}>
-                                         <Text style={estilo.tituloItem}>{res.nome}</Text>
-                                         <Text style={estilo.autorItem}>{res.autor.nome}</Text>
-                                         <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
-                                         <ScrollView
-                                             horizontal
-                                             showsHorizontalScrollIndicator={false}
-                                             style={estilo.tagItemContainer}
-                                         >
-                                             {
-                                                 res.tag.map((tags:any) =>(
-                                                     <TouchableOpacity key={tags} style={estilo.tagItem}>
-                                                         <Text>{tags}</Text>
-                                                     </TouchableOpacity>
-                                                 ))
-                                             }
-                                         </ScrollView>
-                                     </View>
-                                 </TouchableOpacity>
+                                console.log(res);
+                                if(res.message){
+                                    return(
+                                        <View key={res.message} style={estilo.semLivro}>
+                                            <Text style={estilo.semLivroText}>Você ainda não adicionou nenhum livro.</Text>
+                                        </View>
+                                    )
+                                } else {
+                                    return (
+                                         <TouchableOpacity key={res._id} style={estilo.item}>
+                                             <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
+                                             <View style={estilo.infoItem}>
+                                                 <Text style={estilo.tituloItem}>{res.nome}</Text>
+                                                 <Text style={estilo.autorItem}>{res.autor.nome}</Text>
+                                                 <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
+                                                 <ScrollView
+                                                     horizontal
+                                                     showsHorizontalScrollIndicator={false}
+                                                     style={estilo.tagItemContainer}
+                                                 >
+                                                     {
+                                                         res.tag.map((tags:any) =>(
+                                                             <TouchableOpacity key={tags} style={estilo.tagItem}>
+                                                                 <Text>{tags}</Text>
+                                                             </TouchableOpacity>
+                                                         ))
+                                                     }
+                                                 </ScrollView>
+                                             </View>
+                                         </TouchableOpacity>
+                                    )
+                                }
+                        })
 
-                        )})
                     }
                 </ScrollView>
             <Footer navigation={navigation} />
@@ -85,6 +99,16 @@ const estilo = StyleSheet.create({
     adicionarTexto: {
         marginRight: 15,
         fontSize: 22
+    },
+    semLivro: {
+        marginVertical: 10,
+        marginHorizontal: 5,
+        height: 50,
+        justifyContent: 'center'
+    },
+    semLivroText: {
+        fontSize: 18,
+        textAlign: "center"
     },
     item: {
         height: 215,

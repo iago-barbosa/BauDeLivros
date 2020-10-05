@@ -12,6 +12,16 @@ const estilo = StyleSheet.create({
         flex: 1,
         alignContent: 'center', 
     },
+    semLivro: {
+        marginVertical: 10,
+        marginHorizontal: 5,
+        height: 50,
+        justifyContent: 'center'
+    },
+    semLivroText: {
+        fontSize: 18,
+        textAlign: "center"
+    },
     containerFilter: {
         flexDirection: 'row',
         justifyContent: 'space-between',

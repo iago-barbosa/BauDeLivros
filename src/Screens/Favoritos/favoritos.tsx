@@ -1,18 +1,21 @@
 import React, { useEffect, useState}from 'react';
 import api from '../../service/api';
 import { Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Footer from '../../Components/Footer/footer';
 import estilo from './favitosEstilo';
 
 import Imagens from '../../Components/Imagens/index';
 
 export default function Favoritos ({navigation}) {
-    const [ favoritos, setFavoritos] = useState([])
-    var favoritosLength = 0;
+    const [ favoritos, setFavoritos] = useState([]);
 
     useEffect(() => {
-        api.get('/livros').then((res) => {
-            setFavoritos(res.data)
+        AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
+            api.defaults.headers.common['Authorization'] = 'Bearer '+value;
+            api.get('/meusFavoritos').then((res) => {
+                setFavoritos(res.data);
+            })
         })
     }, [])
     return(
@@ -29,30 +32,26 @@ export default function Favoritos ({navigation}) {
                 >
                     {
                         favoritos.map((res:any) =>{
-                            return (
-                                 <TouchableOpacity key={res._id} style={estilo.item}>
-                                     <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
-                                     <View style={estilo.infoItem}>
-                                         <Text style={estilo.tituloItem}>{res.nome}</Text>
-                                         <Text style={estilo.autorItem}>{res.autor.nome}</Text>
-                                         <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
-                                         <ScrollView
-                                             horizontal
-                                             showsHorizontalScrollIndicator={false}
-                                             style={estilo.tagItemContainer}
-                                         >
-                                             {
-                                                 res.tag.map((tags:any) =>(
-                                                     <TouchableOpacity key={tags} style={estilo.tagItem}>
-                                                         <Text>{tags}</Text>
-                                                     </TouchableOpacity>
-                                                 ))
-                                             }
-                                         </ScrollView>
-                                     </View>
-                                 </TouchableOpacity>
+                                if(res.message){
+                                    return(
+                                        <View key={res.message} style={estilo.semLivro}>
+                                            <Text style={estilo.semLivroText}>Você ainda não tem favoritos.</Text>
+                                        </View>
+                                    )
+                                } else {
+                                    return (
+                                        <TouchableOpacity key={res._id} style={estilo.item}>
+                                            <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
+                                            <View style={estilo.infoItem}>
+                                                <Text style={estilo.tituloItem}>{res.nome}</Text>
+                                                <Text style={estilo.autorItem}>{res.autor.nome}</Text>
+                                                <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
+                                            </View>
+                                        </TouchableOpacity>
 
-                        )})
+                                    )
+                                }
+                        })
                     }
                 </ScrollView>
             </View>

@@ -1,52 +1,108 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, Image, ImageBackground} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import api from '../../service/api';
+import AsyncStorage from '@react-native-community/async-storage';
+import { Text, View, StyleSheet, Image, ImageBackground, Dimensions } from 'react-native';
 import Footer from '../../Components/Footer/footer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Profile ({navigation}) {
-    return(
+//import AsyncStorage from '@react-native-community/async-storage';
+//    AsyncStorage.removeItem('@BauDeLivros:userToken');
+
+const {width} = Dimensions.get("window");
+
+export default function Profile({ navigation }) {
+    const [usuarios, setUsuarios] = useState([]);
+
+    
+    useEffect(() => {
+        AsyncStorage.getItem('@BauDeLivros:userToken').then((value) => {
+            api.defaults.headers.common['Authorization'] = 'Bearer ' + value;
+            api.get('/usuarioInfo').then((res) => {
+                setUsuarios(res.data);
+            })
+        })
+    }, [])
+
+
+    return (
         <View style={estilo.main}>
-            <View style={estilo.container}>
-                <ImageBackground style={{flex: 1,justifyContent: "center"}} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/capa.png')}>
-                    <View style={estilo.perfilImg}>
-                        <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/perfil.png')}></Image>
-                    </View>
-                </ImageBackground>
-            </View>
-            <View style={estilo.container}>
-                <Text style={estilo.nome}>Machado de Assis</Text>
-                <View style={estilo.containerInfo}>
-                    <View style={estilo.info}>
-                        <Text style={estilo.infoTitulo}>Idade:</Text>
-                        <Text style={estilo.infoTexto}>181</Text>
-                    </View>
-                    <View style={estilo.info}>
-                        <Text style={estilo.infoTitulo}>Obras Plublicadas:</Text>
-                        <Text style={estilo.infoTexto}>236</Text>
-                    </View>
-                </View>
-                <View style={estilo.container}>
-                    <Text style={estilo.tituloSobre}>Sobre</Text>
-                    <Text style={estilo.textoSobre}>
-                        Principal nome do Realismo brasileiro, o primeiro presidente da 
-                        Academia Brasileira de Letras e um dos escritores mais aclamados da literatura. 
-                        O carioca nascido no Morro do Livramento atuou como jornalista, crítico, cronista, 
-                        dramaturgo e poeta.
-                    </Text>
-                </View>
-                <TouchableOpacity style={estilo.btnEditar}>
-                    <Text style={{textAlign: 'center', color: '#fff', fontSize: 18, fontWeight: 'bold'}}>Editar Perfil</Text>
-                </TouchableOpacity>
-            </View>
+            {
+                usuarios.map((res:any) =>{
+                    var currentDate = new Date();
+                    var idade = res.idade.split('-');
+                    var idadeAtual = currentDate.getFullYear() - idade[0];
+                    if(currentDate.getMonth() < idade[1]){
+                        idadeAtual = idadeAtual - 1
+                    }
+                    
+                    
+                    return(
+                        <View style={estilo.main} key={res.id}>
+                            <View style={estilo.container}>
+                            {res.fotoCapa == '' ?
+                                <ImageBackground style={{flex: 1,justifyContent: "center"}} source={require('../../../assets/imgParaBd/Usuario/Default/capa.png')}>
+                                    {res.fotoPerfil == ''?
+                                        <View style={estilo.perfilImg}>
+                                            <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/Default/perfil.png')}></Image>
+                                        </View>
+                                        :
+                                        <View style={estilo.perfilImg}>
+                                            <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/perfil.png')}></Image>
+                                        </View> 
+
+                                    }
+                                </ImageBackground>
+                                :
+                                <ImageBackground style={{flex: 1,justifyContent: "center"}} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/capa.png')}>
+                                    {res.fotoPerfil == ''?
+                                        <View style={estilo.perfilImg}>
+                                            <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/Default/perfil.png')}></Image>
+                                        </View>
+                                        :
+                                        <View style={estilo.perfilImg}>
+                                            <Image style={estilo.img} source={require('../../../assets/imgParaBd/Usuario/MachadoDeAssis/perfil.png')}></Image>
+                                        </View> 
+                                    }
+                                </ImageBackground>
+                            }
+                            </View>
+                            <View style={estilo.container}>
+                                <Text style={estilo.nome}>{res.nome}</Text>
+                                <View style={estilo.containerInfo}>
+                                    <View style={estilo.info}>
+                                        <Text style={estilo.infoTitulo}>Idade:</Text>
+                                        <Text style={estilo.infoTexto}>{idadeAtual}</Text>
+                                    </View>
+                                    <View style={estilo.info}>
+                                        <Text style={estilo.infoTitulo}>Obras Plublicadas:</Text>
+                                        <Text style={estilo.infoTexto}>0</Text>
+                                    </View>
+                                </View>
+                                <View style={estilo.container}>
+                                    <Text style={estilo.tituloSobre}>Sobre</Text>
+                                    <Text style={estilo.textoSobre}>
+                                        {res.sobre}
+                                    </Text>
+                                </View>
+                                <TouchableOpacity style={estilo.btnEditar}>
+                                    <Text style={{textAlign: 'center', color: '#fff', fontSize: 18, fontWeight: 'bold'}}>Editar Perfil</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )
+                })
+
+            }
             <Footer navigation={navigation} />
         </View>
     );
+
 }
 
 const estilo = StyleSheet.create({
     main: {
         flex: 1,
-        alignContent: 'center', 
+        alignContent: 'center',
         justifyContent: 'center'
     },
     container: {
@@ -79,7 +135,10 @@ const estilo = StyleSheet.create({
     },
     img: {
         position: 'absolute',
-        left: -25
+        left: -25,
+        top: -150,
+        maxWidth: (width/6)*5,
+        resizeMode: "contain"
     },
     nome: {
         textAlign: 'center',
@@ -95,7 +154,7 @@ const estilo = StyleSheet.create({
         backgroundColor: '#3acbc7',
         borderRadius: 15
     },
-    tituloSobre:{
+    tituloSobre: {
         textAlign: 'center',
         marginTop: 25,
         fontSize: 24
