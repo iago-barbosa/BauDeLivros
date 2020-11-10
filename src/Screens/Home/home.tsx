@@ -4,6 +4,8 @@ import Footer from '../../Components/Footer/footer';
 import BannerHome from './BannerHome/banner';
 import Categorias from './Categorias/categoriasHome';
 import Lancamentos from './Lancamentos/lancamentos';
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Remote debugger']);
 
 export default function Home ({navigation}) {
     return(

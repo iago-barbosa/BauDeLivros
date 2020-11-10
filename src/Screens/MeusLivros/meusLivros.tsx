@@ -4,8 +4,9 @@ import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Image} from 'reac
 import Footer from '../../Components/Footer/footer';
 import AsyncStorage from '@react-native-community/async-storage';
 import Imagens from '../../Components/Imagens/index';
+import Login from '../Profile/login';
 
-export default function MeusLivros ({navigation}) {
+export default function MeusLivros ({ navigation, route }) {
     const [ livros, setLivros] = useState([])
 
     useEffect(() => {
@@ -16,58 +17,66 @@ export default function MeusLivros ({navigation}) {
             })
         })
     }, []) 
-    return(
-        <View style={estilo.main}>
-            <View style={estilo.headerMeusLivros}>
-                <TouchableOpacity style={estilo.adicionarLivro}>
-                    <Text style={estilo.adicionarTexto}>Adicionar Livro</Text>
-                    <Image style={estilo.icons} source={require('../../../assets/mais.png')}></Image>
-                </TouchableOpacity>
+    const { validacao } = route.params;
+    if(validacao === true){
+        return(
+            <View style={estilo.main}>
+                <View style={estilo.headerMeusLivros}>
+                    <TouchableOpacity style={estilo.adicionarLivro}>
+                        <Text style={estilo.adicionarTexto}>Adicionar Livro</Text>
+                        <Image style={estilo.icons} source={require('../../../assets/mais.png')}></Image>
+                    </TouchableOpacity>
+                </View>
+                <ScrollView 
+                        style={estilo.container}
+                        >
+                        {
+                            livros.map((res:any) =>{
+                                    console.log(res);
+                                    if(res.message){
+                                        return(
+                                            <View key={res.message} style={estilo.semLivro}>
+                                                <Text style={estilo.semLivroText}>Você ainda não adicionou nenhum livro.</Text>
+                                            </View>
+                                        )
+                                    } else {
+                                        return (
+                                             <TouchableOpacity key={res._id} style={estilo.item}>
+                                                 <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
+                                                 <View style={estilo.infoItem}>
+                                                     <Text style={estilo.tituloItem}>{res.nome}</Text>
+                                                     <Text style={estilo.autorItem}>{res.autor.nome}</Text>
+                                                     <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
+                                                     <ScrollView
+                                                         horizontal
+                                                         showsHorizontalScrollIndicator={false}
+                                                         style={estilo.tagItemContainer}
+                                                     >
+                                                         {
+                                                             res.tag.map((tags:any) =>(
+                                                                 <TouchableOpacity key={tags} style={estilo.tagItem}>
+                                                                     <Text>{tags}</Text>
+                                                                 </TouchableOpacity>
+                                                             ))
+                                                         }
+                                                     </ScrollView>
+                                                 </View>
+                                             </TouchableOpacity>
+                                        )
+                                    }
+                            })
+    
+                        }
+                    </ScrollView>
+                <Footer navigation={navigation} />
             </View>
-            <ScrollView 
-                    style={estilo.container}
-                    >
-                    {
-                        livros.map((res:any) =>{
-                                console.log(res);
-                                if(res.message){
-                                    return(
-                                        <View key={res.message} style={estilo.semLivro}>
-                                            <Text style={estilo.semLivroText}>Você ainda não adicionou nenhum livro.</Text>
-                                        </View>
-                                    )
-                                } else {
-                                    return (
-                                         <TouchableOpacity key={res._id} style={estilo.item}>
-                                             <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
-                                             <View style={estilo.infoItem}>
-                                                 <Text style={estilo.tituloItem}>{res.nome}</Text>
-                                                 <Text style={estilo.autorItem}>{res.autor.nome}</Text>
-                                                 <Text style={estilo.categoriaItem}>Categoria:  {res.categoria}</Text>
-                                                 <ScrollView
-                                                     horizontal
-                                                     showsHorizontalScrollIndicator={false}
-                                                     style={estilo.tagItemContainer}
-                                                 >
-                                                     {
-                                                         res.tag.map((tags:any) =>(
-                                                             <TouchableOpacity key={tags} style={estilo.tagItem}>
-                                                                 <Text>{tags}</Text>
-                                                             </TouchableOpacity>
-                                                         ))
-                                                     }
-                                                 </ScrollView>
-                                             </View>
-                                         </TouchableOpacity>
-                                    )
-                                }
-                        })
-
-                    }
-                </ScrollView>
-            <Footer navigation={navigation} />
-        </View>
-    );
+        );
+    } else {
+        return(
+            <Login navigation={navigation} />
+        )
+    }
+    
 }
 
 const estilo = StyleSheet.create({

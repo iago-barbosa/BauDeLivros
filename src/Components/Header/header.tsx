@@ -12,31 +12,40 @@ export default function Header({ navigation }){
         <View style={headerStyle.header}>
             <StatusBar style="light"/>
             {route.name == "Home" ?
-                    <View style={headerStyle.container}>
-                        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                            <Image style={headerStyle.barsMenu} source={require('../../../assets/bars.png')}></Image>
+                <View style={headerStyle.container}>
+                    <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                        <Image style={headerStyle.barsMenu} source={require('../../../assets/bars.png')}></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateProfile(navigation)}>
+                        <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
+                    </TouchableOpacity>
+                </View>
+                :
+                <View style={headerStyle.container}>
+                    <HeaderBackButton style={[headerStyle.backBtn, headerStyle.icons]} tintColor={'#fff'}  onPress={() => navigation.goBack()}/>
+                    <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
+                    {route.name == "Profile" ?
+                        <TouchableOpacity onPress={() => logout(navigation)}>
+                            <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/saida.png')}></Image>
                         </TouchableOpacity>
-                        <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
+                        :
                         <TouchableOpacity onPress={() => navigateProfile(navigation)}>
                             <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
                         </TouchableOpacity>
-                    </View>
-                    :
-                    <View style={headerStyle.container}>
-                        <HeaderBackButton style={[headerStyle.backBtn, headerStyle.icons]} tintColor={'#fff'}  onPress={() => navigation.goBack()}/>
-                        <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
-                        {route.name == "Profile" ?
-                            <TouchableOpacity style={headerStyle.logo}></TouchableOpacity>
-                            :
-                            <TouchableOpacity onPress={() => navigateProfile(navigation)}>
-                                <Image style={[headerStyle.profile, headerStyle.icons]} source={require('../../../assets/profile.png')}></Image>
-                            </TouchableOpacity>
-                        }
-                    </View>
-                } 
+                    }
+                </View>
+            } 
         </View>
     )
 }
+
+async function logout(navigation) {
+    AsyncStorage.removeItem('@BauDeLivros:userToken').then((value) =>{
+            navigation.navigate('Home');
+    });
+}
+
 
 async function navigateProfile(navigation) {
     AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
