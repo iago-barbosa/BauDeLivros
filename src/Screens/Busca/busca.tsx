@@ -1,20 +1,25 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions, Image} from 'react-native';
+import React, { useEffect, useState}from 'react';
+import api from '../../service/api';
+import { Text, View, StyleSheet, Dimensions, Image, ScrollView} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import Imagens from '../../Components/Imagens/index';
 import Footer from '../../Components/Footer/footer';
 
 const {width} = Dimensions.get("window");
 
 export default function Busca ({navigation}) {
+    const [ terms, setTerms] = useState('')
+
     return(
-        <View style={estilo.main}>
-            <View style={estilo.container}>
-                <View style={estilo.buscaContainer}>
+        <View style={estiloBusca.main}>
+            <View style={estiloBusca.container}>
+                <View style={estiloBusca.buscaContainer}>
                     <TextInput
-                        style={estilo.buscaInput}
+                        style={estiloBusca.buscaInput}
+                        onChangeText={(text) => setTerms(text)}
                     />
-                    <TouchableOpacity style={estilo.btnBusca}>
-                        <Image style={estilo.icons} source={require('../../../assets/search.png')} />
+                    <TouchableOpacity onPress={() => navigation.navigate('ResultBusca', {t: terms})} style={estiloBusca.btnBusca}>
+                        <Image style={estiloBusca.icons} source={require('../../../assets/search.png')} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -23,7 +28,7 @@ export default function Busca ({navigation}) {
     );
 }
 
-const estilo = StyleSheet.create({
+const estiloBusca = StyleSheet.create({
     main: {
         flex: 1,
         alignContent: 'center', 

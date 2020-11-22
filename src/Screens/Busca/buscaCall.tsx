@@ -1,16 +1,20 @@
-import React, { useEffect, useState}from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../../service/api';
-import { Text, View, Image, TouchableOpacity, ScrollView, StyleSheet} from 'react-native';
-import Footer from '../../Components/Footer/footer';
+import { Text, View, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import Imagens from '../../Components/Imagens/index';
+import Footer from '../../Components/Footer/footer';
 
-export default function Categoria ({route, navigation}) {
-    const { nome } = route.params;
-    const [ categoria, setCategoria] = useState([])
 
+
+export default function ResultBusca({route, navigation}) {
+    const { t } = route.params;
+    const [search, setSearch] = useState([]);
+
+    
     useEffect(() => {
-        api.get('/livroCategoria/'+nome).then((res) => {
-            setCategoria(res.data)
+        api.get('/busca/'+t).then((res) => {
+            setSearch(res.data)
         })
     }, [])
     return(
@@ -20,7 +24,7 @@ export default function Categoria ({route, navigation}) {
                     style={estilo.container}
                 >
                     {
-                        categoria.map((res:any) =>{
+                        search.map((res:any) =>{
                             return (
                                  <TouchableOpacity key={res._id} style={estilo.item}>
                                      <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>

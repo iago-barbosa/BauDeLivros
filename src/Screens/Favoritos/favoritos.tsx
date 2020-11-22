@@ -9,7 +9,6 @@ import Imagens from '../../Components/Imagens/index';
 
 export default function Favoritos ({navigation}) {
     const [ favoritos, setFavoritos] = useState([]);
-
     useEffect(() => {
         AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
             api.defaults.headers.common['Authorization'] = 'Bearer '+value;
@@ -31,8 +30,8 @@ export default function Favoritos ({navigation}) {
                     style={estilo.container}
                 >
                     {
-                        favoritos.map((res:any) =>{
-                                if(res.message){
+                        favoritos.map((res:any) => {
+                            if(res.message){
                                     return(
                                         <View key={res.message} style={estilo.semLivro}>
                                             <Text style={estilo.semLivroText}>Você ainda não tem favoritos.</Text>

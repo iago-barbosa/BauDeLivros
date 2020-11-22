@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import api from '../../service/api';
 import { Text, View, StyleSheet, Dimensions} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
 import DatePicker from 'react-native-datepicker';
 import Footer from '../../Components/Footer/footer';
 
@@ -10,15 +12,39 @@ const {width, height} = Dimensions.get("window");
 
 
 export default function Cadastrar ({navigation}) {
-    const [login, setLogin] = useState('');
+    const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
+    const [email, setEmail] = useState('');
     const [data, setData] = useState('');
+    const [sobre, setSobre] = useState('');
 
-
-    function fazLogin() {
-        console.log(login);
-        console.log(senha);
+    async function saveToken(user) {
+        await AsyncStorage.setItem('@BauDeLivros:userToken', user)
+        navigation.navigate('Home');
     }
+
+    function cadastrar(){
+        var currentDate = new Date();
+        //var params = JSON.parse('"nome":'+nome+', "senha":'+senha+',"email":'+email+',"data":'+data+',"sobre":'+sobre);
+        api.post('/cadastraUsuario', 
+            {
+                nome: nome, 
+                senha: senha, 
+                email: email, 
+                fotoPerfil: '',
+                fotoCapa: '', 
+                sobre: sobre, 
+                idade: data, 
+                criadoEm: currentDate, 
+                escritor: true 
+            }).then((res) => {
+                var token = res.data.token;
+                saveToken(token)
+                
+        })
+    }
+
+
     return(
         <View style={estilo.main}>
             <View style={estilo.container}>
@@ -26,7 +52,8 @@ export default function Cadastrar ({navigation}) {
                     <Text>Nome:</Text>
                     <TextInput
                         style={estilo.input}
-                        placeholder="exemplo@exemplo.com"
+                        placeholder="João Roberto"
+                        onChangeText={(text) => setNome(text)}
                     ></TextInput>
                 </View>
 
@@ -34,7 +61,9 @@ export default function Cadastrar ({navigation}) {
                     <Text>Senha:</Text>
                     <TextInput
                         style={estilo.input}
-                        placeholder="exemplo@exemplo.com"
+                        placeholder="********"
+                        secureTextEntry={true}
+                        onChangeText={(text) => setSenha(text)}
                     ></TextInput>
                 </View>
 
@@ -43,6 +72,7 @@ export default function Cadastrar ({navigation}) {
                     <TextInput
                         style={estilo.input}
                         placeholder="exemplo@exemplo.com"
+                        onChangeText={(text) => setEmail(text)}
                     ></TextInput>
                 </View>
 
@@ -65,11 +95,13 @@ export default function Cadastrar ({navigation}) {
                     <Text>Sobre:</Text>
                     <TextInput
                         style={estilo.input}
-                        placeholder="exemplo@exemplo.com"
+                        placeholder="Fale sobre você"
+                        onChangeText={(text) => setSobre(text)}
                     ></TextInput>
                 </View>
 
                 <TouchableOpacity 
+                    onPress={cadastrar}
                     style={estilo.cadastrar}
                 >
                     <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>Cadastrar</Text>
