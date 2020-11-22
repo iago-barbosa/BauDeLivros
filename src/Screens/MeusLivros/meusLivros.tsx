@@ -5,7 +5,6 @@ import Footer from '../../Components/Footer/footer';
 import AsyncStorage from '@react-native-community/async-storage';
 import Imagens from '../../Components/Imagens/index';
 import Login from '../Profile/login';
-import estilo from './meusLivrosCSS';
 
 export default function MeusLivros ({ navigation, route }) {
     const [ livros, setLivros] = useState([])
@@ -19,16 +18,11 @@ export default function MeusLivros ({ navigation, route }) {
         })
     }, []) 
     const { validacao } = route.params;
-
-    function cadastraLivro(){
-        navigation.navigate('CadastrarLivros')
-    }
-
     if(validacao === true){
         return(
             <View style={estilo.main}>
                 <View style={estilo.headerMeusLivros}>
-                    <TouchableOpacity onPress={cadastraLivro} style={estilo.adicionarLivro}>
+                    <TouchableOpacity style={estilo.adicionarLivro}>
                         <Text style={estilo.adicionarTexto}>Adicionar Livro</Text>
                         <Image style={estilo.icons} source={require('../../../assets/mais.png')}></Image>
                     </TouchableOpacity>
@@ -38,6 +32,7 @@ export default function MeusLivros ({ navigation, route }) {
                         >
                         {
                             livros.map((res:any) =>{
+                                    console.log(res);
                                     if(res.message){
                                         return(
                                             <View key={res.message} style={estilo.semLivro}>
@@ -83,3 +78,94 @@ export default function MeusLivros ({ navigation, route }) {
     }
     
 }
+
+const estilo = StyleSheet.create({
+    main: {
+        flex: 1,
+        alignContent: 'center', 
+        justifyContent: 'center'
+    },
+    container: {
+        flex: 1,
+        alignContent: 'center', 
+    },
+    headerMeusLivros:{
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'center',
+        height: 65,
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderColor: '#d3d3d3'
+    },
+    adicionarLivro: {
+        flexDirection: 'row',
+    },
+    icons: {
+        width: 35,
+        height: 35
+    },
+    adicionarTexto: {
+        marginRight: 15,
+        fontSize: 22
+    },
+    semLivro: {
+        marginVertical: 10,
+        marginHorizontal: 5,
+        height: 50,
+        justifyContent: 'center'
+    },
+    semLivroText: {
+        fontSize: 18,
+        textAlign: "center"
+    },
+    item: {
+        height: 215,
+        flexDirection: "row",
+        marginVertical: 10,
+        marginHorizontal: 5,
+        backgroundColor: '#d6fefd33',
+        borderWidth: 1,
+        borderColor: '#d6fefd4d'
+    },
+    capaItem: {
+        maxHeight: 215,
+        maxWidth: 150
+    },
+    infoItem: {
+        flex: 1,
+        marginTop: 10,
+        marginLeft: 15
+    },
+    tituloItem: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        height: 50,
+        
+    },
+    autorItem: {
+        fontSize: 16,
+        height: 30,
+        textAlignVertical: "center"
+    },
+    categoriaItem: {
+        marginTop: 10,
+        fontSize: 16
+    },
+    tagItemContainer: {
+        position: 'absolute',
+        bottom: 0,
+        height: 50,
+    },
+    tagItem: {
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#cdcdcd',
+        borderRadius: 10,
+        height: 35,
+        marginVertical: 7.5,
+        marginHorizontal: 5,
+        paddingHorizontal: 5,
+        justifyContent: 'center'
+    },
+});
