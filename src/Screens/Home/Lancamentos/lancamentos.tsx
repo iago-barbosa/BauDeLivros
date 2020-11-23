@@ -6,7 +6,7 @@ import Imagens from '../../../Components/Imagens/index';
 const {width} = Dimensions.get("window");
 
 
-export default function Lancamentos() {
+export default function Lancamentos({ navigation }) {
     const [ lancamentos, setLancamentos] = useState([])
 
     useEffect(() => {
@@ -20,19 +20,19 @@ export default function Lancamentos() {
             <Text style={estilo.Titulo}>Lançamentos</Text>
             <ScrollView 
                 horizontal 
-                decelerationRate="fast"
+                decelerationRate="fast" 
                 showsHorizontalScrollIndicator={false}
             >
                 {
                     lancamentos.map((res:any) => (
-                        <TouchableOpacity key={res._id} style={estilo.ItemContainer}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Livro', {_id: res._id})} key={res._id} style={estilo.ItemContainer}>
                             <Image style={estilo.ItemImage} source={Imagens[res.imagem]}></Image>
                             <Text style={estilo.ItemTitulo}>{res.nome}</Text>
                             <Text style={estilo.ItemAutor}>{res.autor.nome}</Text>
                         </TouchableOpacity>
                         ))
                 }
-                <TouchableOpacity style={[estilo.ItemContainer, estilo.VerTodosContainer]}>
+                <TouchableOpacity onPress={() => navigation.navigate('VerTodos')} style={[estilo.ItemContainer, estilo.VerTodosContainer]}>
                     <Text style={estilo.VerTodos}>Ver Todos</Text>
                 </TouchableOpacity>
             </ScrollView>
@@ -43,6 +43,7 @@ export default function Lancamentos() {
 const estilo = StyleSheet.create({
     CatContainer: {
         marginTop: 10,
+        marginBottom: 30
     },
     Titulo: {
         fontSize: 20, 

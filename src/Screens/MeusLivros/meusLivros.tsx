@@ -22,7 +22,7 @@ export default function MeusLivros ({ navigation, route }) {
         return(
             <View style={estilo.main}>
                 <View style={estilo.headerMeusLivros}>
-                    <TouchableOpacity style={estilo.adicionarLivro}>
+                    <TouchableOpacity onPress={() => navigation.navigate('CadastrarLivros')} style={estilo.adicionarLivro}>
                         <Text style={estilo.adicionarTexto}>Adicionar Livro</Text>
                         <Image style={estilo.icons} source={require('../../../assets/mais.png')}></Image>
                     </TouchableOpacity>
@@ -41,7 +41,7 @@ export default function MeusLivros ({ navigation, route }) {
                                         )
                                     } else {
                                         return (
-                                             <TouchableOpacity key={res._id} style={estilo.item}>
+                                             <TouchableOpacity onPress={() => navigation.navigate('Livro', {_id: res._id})} key={res._id} style={estilo.item}>
                                                  <Image style={estilo.capaItem} source={Imagens[res.imagem]}></Image>
                                                  <View style={estilo.infoItem}>
                                                      <Text style={estilo.tituloItem}>{res.nome}</Text>

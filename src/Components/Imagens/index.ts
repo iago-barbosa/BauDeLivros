@@ -13,6 +13,7 @@ const images = {
     OPequenoPrincipe: require('../../../assets/imgParaBd/capas/OPequenoPrincipe.png'),
     PercyJacksonEOsOlimpianos: require('../../../assets/imgParaBd/capas/PercyJacksonEOsOlimpianos.png'),
     RomeuEJulieta: require('../../../assets/imgParaBd/capas/RomeuEJulieta.png'),
+    Default: require('../../../assets/imgParaBd/capas/Default.png'),
 
 };
 export default images;

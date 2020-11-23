@@ -3,34 +3,25 @@ import api from '../../service/api';
 import { Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Footer from '../../Components/Footer/footer';
-import estilo from './favitosEstilo';
+import estilo from './verTodosCSS';
 
 import Imagens from '../../Components/Imagens/index';
 
 export default function Favoritos ({navigation}) {
-    const [ favoritos, setFavoritos] = useState([]);
+    const [ livros, setLivros] = useState([]);
     useEffect(() => {
-        AsyncStorage.getItem('@BauDeLivros:userToken').then((value) =>{
-            api.defaults.headers.common['Authorization'] = 'Bearer '+value;
-            api.get('/meusFavoritos').then((res) => {
-                setFavoritos(res.data);
-            })
+        api.get('/verTodos').then((res) => {
+            setLivros(res.data);
         })
     }, [])
     return(
         <View style={estilo.main}>
             <View style={estilo.container}>
-                <View style={estilo.containerFilter}>
-                    <Text style={estilo.qtdFavoritos}>{favoritos.length} Livros</Text>
-                    <TouchableOpacity style={estilo.btnFiltrar}>
-                        <Text style={estilo.filtrarTexto}>Filtrar</Text>
-                    </TouchableOpacity>
-                </View>
                 <ScrollView 
                     style={estilo.container}
                 >
                     {
-                        favoritos.map((res:any) => {
+                        livros.map((res:any) => {
                             if(res.message){
                                     return(
                                         <View key={res.message} style={estilo.semLivro}>

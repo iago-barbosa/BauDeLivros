@@ -13,7 +13,7 @@ export default function Home ({navigation}) {
             <ScrollView style={estiloHome.container}>
                 <BannerHome />
                 <Categorias navigation={navigation}/> 
-                <Lancamentos />
+                <Lancamentos navigation={navigation} />
             </ScrollView>
             <Footer navigation={navigation} />
         </View>

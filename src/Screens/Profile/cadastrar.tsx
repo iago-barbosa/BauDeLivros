@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../service/api';
 import { Text, View, StyleSheet, Dimensions} from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import DatePicker from 'react-native-datepicker';
 import Footer from '../../Components/Footer/footer';
@@ -48,64 +48,66 @@ export default function Cadastrar ({navigation}) {
     return(
         <View style={estilo.main}>
             <View style={estilo.container}>
-                <View style={estilo.containerInput}>
-                    <Text>Nome:</Text>
-                    <TextInput
-                        style={estilo.input}
-                        placeholder="João Roberto"
-                        onChangeText={(text) => setNome(text)}
-                    ></TextInput>
-                </View>
+                <ScrollView>
+                    <View style={estilo.containerInput}>
+                        <Text>Nome:</Text>
+                        <TextInput
+                            style={estilo.input}
+                            placeholder="João Roberto"
+                            onChangeText={(text) => setNome(text)}
+                        ></TextInput>
+                    </View>
 
-                <View style={estilo.containerInput}>
-                    <Text>Senha:</Text>
-                    <TextInput
-                        style={estilo.input}
-                        placeholder="********"
-                        secureTextEntry={true}
-                        onChangeText={(text) => setSenha(text)}
-                    ></TextInput>
-                </View>
+                    <View style={estilo.containerInput}>
+                        <Text>Senha:</Text>
+                        <TextInput
+                            style={estilo.input}
+                            placeholder="********"
+                            secureTextEntry={true}
+                            onChangeText={(text) => setSenha(text)}
+                        ></TextInput>
+                    </View>
 
-                <View style={estilo.containerInput}>
-                    <Text>Email:</Text>
-                    <TextInput
-                        style={estilo.input}
-                        placeholder="exemplo@exemplo.com"
-                        onChangeText={(text) => setEmail(text)}
-                    ></TextInput>
-                </View>
+                    <View style={estilo.containerInput}>
+                        <Text>Email:</Text>
+                        <TextInput
+                            style={estilo.input}
+                            placeholder="exemplo@exemplo.com"
+                            onChangeText={(text) => setEmail(text)}
+                        ></TextInput>
+                    </View>
 
-                <View style={estilo.containerInput}>
-                    <DatePicker 
-                        format="YYYY-MM-DD"
-                        style={estilo.date}
-                        mode="date"
-                        placeholder="select date"
-                        minDate="1900-01-01"
-                        maxDate="2007-01-01"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        date={data}
-                        onDateChange={(date) => {setData(date)}}
-                    />
-                </View>
+                    <View style={estilo.containerInput}>
+                        <DatePicker 
+                            format="YYYY-MM-DD"
+                            style={estilo.date}
+                            mode="date"
+                            placeholder="select date"
+                            minDate="1900-01-01"
+                            maxDate="2007-01-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            date={data}
+                            onDateChange={(date) => {setData(date)}}
+                        />
+                    </View>
 
-                <View style={estilo.containerInput}>
-                    <Text>Sobre:</Text>
-                    <TextInput
-                        style={estilo.input}
-                        placeholder="Fale sobre você"
-                        onChangeText={(text) => setSobre(text)}
-                    ></TextInput>
-                </View>
+                    <View style={estilo.containerInput}>
+                        <Text>Sobre:</Text>
+                        <TextInput
+                            style={estilo.input}
+                            placeholder="Fale sobre você"
+                            onChangeText={(text) => setSobre(text)}
+                        ></TextInput>
+                    </View>
 
-                <TouchableOpacity 
-                    onPress={cadastrar}
-                    style={estilo.cadastrar}
-                >
-                    <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>Cadastrar</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity 
+                        onPress={cadastrar}
+                        style={estilo.cadastrar}
+                    >
+                        <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>Cadastrar</Text>
+                    </TouchableOpacity>
+                </ScrollView>
             </View>
             <Footer navigation={navigation} />
         </View>
